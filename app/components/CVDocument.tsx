@@ -31,12 +31,12 @@ export function CVDocument({ cv, labels, hobbyImages }: CVDocumentProps) {
 
 
   const contactItems = [
-    personalInfo.phone,
     personalInfo.email,
-    personalInfo.address,
-    personalInfo.website,
-    personalInfo.github,
+    personalInfo.phone,
     personalInfo.linkedin,
+    personalInfo.github,
+    personalInfo.website,
+    personalInfo.address,
   ].filter(Boolean) as string[];
 
   return (
@@ -53,47 +53,23 @@ export function CVDocument({ cv, labels, hobbyImages }: CVDocumentProps) {
               </Text>
             </View>
 
-            <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' , padding: 10}}>
+            <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', padding: 10 }}>
               <View style={s.photo}>
                 {personalInfo.photo ? (
                   <Image src={personalInfo.photo} style={s.photoImg} />
                 ) : null}
               </View>
+
               <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', padding: 10, fontSize: 10 }}>
-                {contactItems.map(contact => (
-                  <Text key={contact}>{contact}</Text>
+                {contactItems.map((contact, index) => (
+                  <View key={index} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 5 }}>
+                    <Text >{'•'}</Text>
+                    <Text >{contact}</Text>
+                  </View>
                 ))}
               </View>
             </View>
 
-
-          </View>
-
-          <View style={s.rightCol}>
-            {profile ? (
-              <View style={s.section}>
-                <PDFSectionTitle title={labels.profile} s={s} />
-                <Text style={s.profileText}>{profile}</Text>
-              </View>
-            ) : null}
-          </View>
-        </View>
-
-        {/* Body — two columns */}
-        <View style={s.body}>
-
-          {/* Left column */}
-          <View style={s.leftCol}>
-
-            {/* Profile */}
-            {/* {profile ? (
-              <View style={s.section}>
-                <PDFSectionTitle title={labels.profile} s={s} />
-                <Text style={s.profileText}>{profile}</Text>
-              </View>
-            ) : null} */}
-
-            {/* Experience */}
             {experience.length > 0 ? (
               <View style={s.section}>
                 <PDFSectionTitle title={labels.experience} s={s} />
@@ -138,12 +114,19 @@ export function CVDocument({ cv, labels, hobbyImages }: CVDocumentProps) {
                 ))}
               </View>
             ) : null}
+
+
           </View>
 
-          {/* Right column */}
           <View style={s.rightCol}>
+            {profile ? (
+              <View style={s.section}>
+                <PDFSectionTitle title={labels.profile} s={s} />
+                <Text style={s.profileText}>{profile}</Text>
+              </View>
+            ) : null}
 
-            {/* Technical Skills */}
+
             {technicalSkills.length > 0 ? (
               <View style={s.section}>
                 <PDFSectionTitle title={labels.technicalSkills} s={s} />
@@ -161,28 +144,10 @@ export function CVDocument({ cv, labels, hobbyImages }: CVDocumentProps) {
                 ))}
               </View>
             ) : null}
-
-            {/* Hobbies */}
-            {hobbies.length > 0 ? (
-              <View style={s.section}>
-                <PDFSectionTitle title={labels.hobbies} s={s} />
-                <View style={s.hobbyRow}>
-                  {hobbies.map((hobby) => (
-                    <View key={hobby.id} style={s.hobbyItem}>
-                      <View style={s.hobbyCircle}>
-                        {hobbyImages[hobby.id] ? (
-                          <Image src={hobbyImages[hobby.id]} style={s.hobbyImg} />
-                        ) : null}
-                      </View>
-                      <Text style={s.hobbyName}>{hobby.name}</Text>
-                    </View>
-                  ))}
-                </View>
-              </View>
-            ) : null}
-
           </View>
         </View>
+
+
       </Page>
     </Document>
   );
