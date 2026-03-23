@@ -36,6 +36,9 @@ export function useStyles(style: CVStyle) {
           color: TEXT_DARK,
           backgroundColor: '#ffffff',
         },
+        accentColor: {
+          color: accentColor,
+        },
 
         // ── Header ──────────────────────────────────────────────
         header: {

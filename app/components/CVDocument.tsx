@@ -1,6 +1,7 @@
 import { Document, Page, View, Text, Image } from '@react-pdf/renderer';
 import { CVData } from '../types/cv';
 import { useStyles } from '../lib/useCVStyles';
+import { Link } from '@react-pdf/renderer';
 
 interface CVDocumentProps {
   cv: CVData;
@@ -15,6 +16,31 @@ interface CVDocumentProps {
 }
 
 type Styles = ReturnType<typeof useStyles>['styles'];
+
+
+
+
+const PersonalInfoItem = ({ item, accentColor }: { item: string, accentColor: string }) => {
+  if (item.includes('https://')) {
+    const url = item;
+    let display = url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+    return (
+        <Link src={url} style={{ textDecoration: 'none', color: accentColor }}>
+          {display}
+        </Link>
+    );
+  }
+  if (item.includes('@')) {
+    return (
+      <Link src={`mailto:${item}`} style={{ textDecoration: 'none', color: accentColor }}>
+        {item}
+      </Link>
+    );
+  }
+  return (
+    <Text>{item}</Text>
+  );
+}
 
 function PDFSectionTitle({ title, s }: { title: string; s: Styles }) {
   return (
@@ -32,10 +58,10 @@ export function CVDocument({ cv, labels, hobbyImages }: CVDocumentProps) {
 
   const contactItems = [
     personalInfo.email,
-    personalInfo.phone,
+    personalInfo.website,
     personalInfo.linkedin,
     personalInfo.github,
-    personalInfo.website,
+    personalInfo.phone,
     personalInfo.address,
   ].filter(Boolean) as string[];
 
@@ -63,8 +89,8 @@ export function CVDocument({ cv, labels, hobbyImages }: CVDocumentProps) {
               <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', padding: 10, fontSize: 10 }}>
                 {contactItems.map((contact, index) => (
                   <View key={index} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 5 }}>
-                    <Text >{'•'}</Text>
-                    <Text >{contact}</Text>
+                    <Text>{'•'}</Text>
+                    <PersonalInfoItem item={contact} accentColor={s.accentColor.color} />
                   </View>
                 ))}
               </View>
