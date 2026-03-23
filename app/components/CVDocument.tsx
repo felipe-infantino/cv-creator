@@ -98,22 +98,7 @@ export function CVDocument({ cv, labels, hobbyImages }: CVDocumentProps) {
             ) : null}
 
             {/* Education */}
-            {education.length > 0 ? (
-              <View style={s.section}>
-                <PDFSectionTitle title={labels.education} s={s} />
-                {education.map((edu) => (
-                  <View key={edu.id} wrap={false} style={{ marginBottom: sp * 0.55 }}>
-                    <View style={s.eduHeader}>
-                      <Text style={s.eduDegree}>{edu.degree}</Text>
-                      <Text style={s.eduYear}>
-                        {edu.startYear}{edu.startYear && edu.endYear ? ' – ' : ''}{edu.endYear}
-                      </Text>
-                    </View>
-                    <Text style={s.eduInstitution}>{edu.institution}</Text>
-                  </View>
-                ))}
-              </View>
-            ) : null}
+
 
 
           </View>
@@ -140,6 +125,23 @@ export function CVDocument({ cv, labels, hobbyImages }: CVDocumentProps) {
                         </View>
                       ))}
                     </View>
+                  </View>
+                ))}
+              </View>
+            ) : null}
+
+            {education.length > 0 ? (
+              <View style={s.section}>
+                <PDFSectionTitle title={labels.education} s={s} />
+                {education.map((edu) => (
+                  <View key={edu.id} wrap={false} style={{ marginBottom: sp * 0.55 }}>
+                    <View style={s.eduHeader}>
+                      <Text style={s.eduDegree}>{edu.degree}</Text>
+                      <Text style={s.eduYear}>
+                        {edu.startYear}{edu.startYear && edu.endYear ? ' – ' : ''}{edu.endYear}
+                      </Text>
+                    </View>
+                    <Text style={s.eduInstitution}>{edu.institution}</Text>
                   </View>
                 ))}
               </View>

@@ -114,7 +114,8 @@ export function useStyles(style: CVStyle) {
 
         // ── Section title ────────────────────────────────────────
         section: {
-          padding: 10,
+          paddingHorizontal: 10,
+          paddingVertical: 4,
         },
         sectionTitle: {
           marginBottom: 8,
@@ -197,13 +198,14 @@ export function useStyles(style: CVStyle) {
 
         // ── Technical Skills ─────────────────────────────────────
         skillCat: {
-          marginBottom: 8,
+          marginBottom: 4,
+          lineHeight: 0.725,
+          // backgroundColor: 'red',
         },
         skillCatName: {
-          fontSize: fs * 0.85,
+          fontSize: fs * 0.8,
           fontWeight: 700,
           color: TEXT_DARK,
-          marginBottom: 4,
         },
         skillBadgesRow: {
           flexDirection: 'row',
