@@ -9,6 +9,8 @@ const defaultCV: CVData = {
     email: 'james@email.com',
     address: 'San Francisco, CA',
     website: 'www.jamesparker.com',
+    github: 'github.com/jamesparker',
+    linkedin: 'linkedin.com/in/jamesparker',
   },
   profile:
     'Results-driven software developer with 7+ years of experience in designing, developing, and deploying scalable web applications. Proficient in modern web technologies and passionate about writing clean, efficient, and maintainable code.',
@@ -74,9 +76,6 @@ const defaultCV: CVData = {
     fontFamily: 'Georgia, serif',
     baseFontSize: 10,
     lineHeight: 1.5,
-    sectionSpacing: 18,
-    contentPadding: 40,
-    headerPadding: 32,
     accentColor: '#2d7aa8',
   },
 };

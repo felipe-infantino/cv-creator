@@ -155,47 +155,6 @@ export default function CVEditor() {
               <div className="flex justify-between text-xs text-gray-400"><span>1.2</span><span>2.0</span></div>
             </div>
 
-            {/* Section spacing */}
-            <div className="flex flex-col gap-1">
-              <label className="text-xs font-medium text-gray-500">
-                {t('sectionSpacing')} — <span className="font-semibold text-gray-700">{cv.style.sectionSpacing}px</span>
-              </label>
-              <input
-                type="range" min={8} max={40} step={2}
-                value={cv.style.sectionSpacing}
-                onChange={(e) => updateStyle({ sectionSpacing: Number(e.target.value) })}
-                className="accent-[#2d7aa8]"
-              />
-              <div className="flex justify-between text-xs text-gray-400"><span>8px</span><span>40px</span></div>
-            </div>
-
-            {/* Content padding */}
-            <div className="flex flex-col gap-1">
-              <label className="text-xs font-medium text-gray-500">
-                {t('contentPadding')} — <span className="font-semibold text-gray-700">{cv.style.contentPadding}px</span>
-              </label>
-              <input
-                type="range" min={16} max={60} step={2}
-                value={cv.style.contentPadding}
-                onChange={(e) => updateStyle({ contentPadding: Number(e.target.value) })}
-                className="accent-[#2d7aa8]"
-              />
-              <div className="flex justify-between text-xs text-gray-400"><span>16px</span><span>60px</span></div>
-            </div>
-
-            {/* Header padding */}
-            <div className="flex flex-col gap-1">
-              <label className="text-xs font-medium text-gray-500">
-                {t('headerPadding')} — <span className="font-semibold text-gray-700">{cv.style.headerPadding}px</span>
-              </label>
-              <input
-                type="range" min={12} max={60} step={2}
-                value={cv.style.headerPadding}
-                onChange={(e) => updateStyle({ headerPadding: Number(e.target.value) })}
-                className="accent-[#2d7aa8]"
-              />
-              <div className="flex justify-between text-xs text-gray-400"><span>12px</span><span>60px</span></div>
-            </div>
           </div>
         )}
       </div>
@@ -242,6 +201,8 @@ export default function CVEditor() {
             <Field label={t('email')} value={cv.personalInfo.email} onChange={(v) => updatePersonalInfo({ email: v })} />
             <Field label={t('address')} value={cv.personalInfo.address} onChange={(v) => updatePersonalInfo({ address: v })} />
             <Field label={t('website')} value={cv.personalInfo.website} onChange={(v) => updatePersonalInfo({ website: v })} />
+            <Field label={t('github')} value={cv.personalInfo.github} onChange={(v) => updatePersonalInfo({ github: v })} placeholder="github.com/username" />
+            <Field label={t('linkedin')} value={cv.personalInfo.linkedin} onChange={(v) => updatePersonalInfo({ linkedin: v })} placeholder="linkedin.com/in/username" />
           </div>
         )}
       </div>

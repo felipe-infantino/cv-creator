@@ -38,7 +38,7 @@ export function CVProvider({ children }: { children: React.ReactNode }) {
       try {
         const parsed = JSON.parse(stored) as CVData;
         // merge style so new fields get defaults if missing from old data
-        setCv({ ...defaultCV, ...parsed, style: { ...defaultCV.style, ...parsed.style } });
+        setCv({ ...defaultCV, ...parsed, personalInfo: { ...defaultCV.personalInfo, ...parsed.personalInfo }, style: { ...defaultCV.style, ...parsed.style } });
       } catch {
         // ignore malformed data
       }

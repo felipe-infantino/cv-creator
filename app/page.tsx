@@ -1,6 +1,6 @@
-import Navbar from "./components/Navbar";
-import CVEditor from "./components/CVEditor";
-import CVPreview from "./components/CVPreview";
+import Navbar from './components/Navbar';
+import CVEditor from './components/CVEditor';
+import ClientPreviewPanel from './components/ClientPreviewPanel';
 
 export default function Home() {
   return (
@@ -11,9 +11,9 @@ export default function Home() {
         <div className="w-2/5 overflow-y-auto border-r border-gray-200 bg-white p-5">
           <CVEditor />
         </div>
-        {/* Preview panel */}
-        <div className="flex w-3/5 flex-col items-center overflow-y-auto bg-gray-100 py-8">
-          <CVPreview />
+        {/* PDF preview panel */}
+        <div className="flex w-3/5 overflow-hidden">
+          <ClientPreviewPanel />
         </div>
       </div>
     </main>

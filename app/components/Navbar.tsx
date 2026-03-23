@@ -1,24 +1,68 @@
 'use client';
 
+import { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import { useCV } from '../context/CVContext';
+
+async function emojiToDataUri(emoji: string, size = 32): Promise<string> {
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d')!;
+  ctx.font = `${size * 0.8}px serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(emoji, size / 2, size / 2);
+  return canvas.toDataURL('image/png');
+}
 
 export default function Navbar() {
   const { lang, setLang, t } = useLanguage();
+  const { cv } = useCV();
+  const [isGenerating, setIsGenerating] = useState(false);
 
   async function handleExportPDF() {
-    const html2pdf = (await import('html2pdf.js')).default;
-    const element = document.getElementById('cv-preview');
-    if (!element) return;
-    html2pdf()
-      .set({
-        margin: 0,
-        filename: 'resume.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-      })
-      .from(element)
-      .save();
+    setIsGenerating(true);
+    try {
+      // Rasterize emoji hobby icons (PDF fonts don't support emoji)
+      const hobbyImages: Record<string, string> = {};
+      for (const h of cv.hobbies) {
+        if (h.icon) hobbyImages[h.id] = await emojiToDataUri(h.icon);
+      }
+
+      // Lazy-import to keep these out of the SSR bundle
+      const { pdf } = await import('@react-pdf/renderer');
+      const { CVDocument } = await import('./CVDocument');
+      const { registerPDFFonts, mapFontFamilyForPDF } = await import('../lib/pdfFonts');
+
+      registerPDFFonts();
+
+      const labels = {
+        profile: t('cvProfile'),
+        experience: t('cvExperience'),
+        education: t('cvEducation'),
+        technicalSkills: t('cvTechnicalSkills'),
+        hobbies: t('cvHobbies'),
+      };
+
+      const mappedCV = {
+        ...cv,
+        style: { ...cv.style, fontFamily: mapFontFamilyForPDF(cv.style.fontFamily) },
+      };
+
+      const blob = await pdf(
+        <CVDocument cv={mappedCV} labels={labels} hobbyImages={hobbyImages} />
+      ).toBlob();
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'resume.pdf';
+      a.click();
+      URL.revokeObjectURL(url);
+    } finally {
+      setIsGenerating(false);
+    }
   }
 
   return (
@@ -51,9 +95,10 @@ export default function Navbar() {
 
       <button
         onClick={handleExportPDF}
-        className="rounded-lg bg-[#2d7aa8] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#235f87]"
+        disabled={isGenerating}
+        className="rounded-lg bg-[#2d7aa8] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#235f87] disabled:opacity-60 disabled:cursor-not-allowed"
       >
-        {t('exportPDF')}
+        {isGenerating ? 'Generating…' : t('exportPDF')}
       </button>
     </header>
   );

@@ -9,9 +9,6 @@ const translations = {
     fontFamily: 'Font',
     baseFontSize: 'Base Font Size',
     lineHeight: 'Line Height',
-    sectionSpacing: 'Section Spacing',
-    contentPadding: 'Horizontal Padding',
-    headerPadding: 'Header Padding',
     accentColor: 'Accent Color',
     // Editor sections
     personalInfo: 'Personal Info',
@@ -27,6 +24,8 @@ const translations = {
     email: 'Email',
     address: 'Address',
     website: 'Website',
+    github: 'GitHub',
+    linkedin: 'LinkedIn',
     uploadPhoto: 'Upload Photo',
     removePhoto: 'Remove',
     // Experience fields
@@ -62,9 +61,6 @@ const translations = {
     fontFamily: 'Schriftart',
     baseFontSize: 'Schriftgröße',
     lineHeight: 'Zeilenhöhe',
-    sectionSpacing: 'Abschnitt-Abstand',
-    contentPadding: 'Horizontaler Rand',
-    headerPadding: 'Kopfzeilen-Rand',
     accentColor: 'Akzentfarbe',
     // Editor sections
     personalInfo: 'Persönliche Daten',
@@ -80,6 +76,8 @@ const translations = {
     email: 'E-Mail',
     address: 'Adresse',
     website: 'Website',
+    github: 'GitHub',
+    linkedin: 'LinkedIn',
     uploadPhoto: 'Foto hochladen',
     removePhoto: 'Entfernen',
     // Experience fields

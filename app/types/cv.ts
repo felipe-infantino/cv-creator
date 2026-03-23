@@ -6,6 +6,8 @@ export interface PersonalInfo {
   email: string;
   address: string;
   website: string;
+  github: string;
+  linkedin: string;
 }
 
 export interface Experience {
@@ -41,9 +43,6 @@ export interface CVStyle {
   fontFamily: string;
   baseFontSize: number;   // px
   lineHeight: number;     // multiplier
-  sectionSpacing: number; // px between sections
-  contentPadding: number; // horizontal padding px
-  headerPadding: number;  // header vertical padding px
   accentColor: string;    // hex
 }
 
