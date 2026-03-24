@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { CVData, CVStyle, Experience, Education, SkillCategory, PersonalInfo } from '../types/cv';
 import defaultCV from '../lib/defaultCV';
+import { storage, STORAGE_KEYS } from '../lib/storage';
 
 interface CVContextValue {
   cv: CVData;
@@ -20,31 +21,26 @@ interface CVContextValue {
   removeSkillCategory: (id: string) => void;
 }
 
-const CVContext = createContext<CVContextValue | null>(null);
+const CVContext = createContext<CVContextValue | undefined>(undefined);
 
 function uid() {
-  return Math.random().toString(36).slice(2);
+  return crypto.randomUUID();
 }
 
 export function CVProvider({ children }: { children: React.ReactNode }) {
   const [cv, setCv] = useState<CVData>(defaultCV);
 
   useEffect(() => {
-    const stored = localStorage.getItem('cv-data');
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored) as CVData;
-        // merge style so new fields get defaults if missing from old data
-        setCv({ ...defaultCV, ...parsed, personalInfo: { ...defaultCV.personalInfo, ...parsed.personalInfo }, style: { ...defaultCV.style, ...parsed.style } });
-      } catch {
-        // ignore malformed data
-      }
+    const parsed = storage.get<CVData>(STORAGE_KEYS.CV);
+    if (parsed) {
+      // merge style so new fields get defaults if missing from old data
+      setCv({ ...defaultCV, ...parsed, personalInfo: { ...defaultCV.personalInfo, ...parsed.personalInfo }, style: { ...defaultCV.style, ...parsed.style } });
     }
   }, []);
 
   function save(data: CVData) {
     setCv(data);
-    localStorage.setItem('cv-data', JSON.stringify(data));
+    storage.set(STORAGE_KEYS.CV, data);
   }
 
   const updatePersonalInfo = (info: Partial<PersonalInfo>) =>

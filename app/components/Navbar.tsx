@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useTranslation } from 'react-i18next';
 import { useCV } from '../context/CVContext';
 import { useTheme } from '../context/ThemeContext';
+import { storage, STORAGE_KEYS } from '../lib/storage';
 
 export default function Navbar() {
   const { t, i18n } = useTranslation();
@@ -60,7 +61,7 @@ export default function Navbar() {
             variant={i18n.language === 'en' ? 'default' : 'ghost'}
             size="sm"
             className="rounded-none rounded-l-full px-4 text-xs"
-            onClick={() => { i18n.changeLanguage('en'); localStorage.setItem('cv-lang', 'en'); }}
+            onClick={() => { i18n.changeLanguage('en'); storage.setRaw(STORAGE_KEYS.LANG, 'en'); }}
           >
             EN
           </Button>
@@ -68,7 +69,7 @@ export default function Navbar() {
             variant={i18n.language === 'de' ? 'default' : 'ghost'}
             size="sm"
             className="rounded-none rounded-r-full px-4 text-xs"
-            onClick={() => { i18n.changeLanguage('de'); localStorage.setItem('cv-lang', 'de'); }}
+            onClick={() => { i18n.changeLanguage('de'); storage.setRaw(STORAGE_KEYS.LANG, 'de'); }}
           >
             DE
           </Button>
@@ -96,7 +97,7 @@ export default function Navbar() {
           className="gap-2"
         >
           <Download className="h-4 w-4" />
-          {isGenerating ? 'Generating…' : t('exportPDF')}
+          {isGenerating ? t('generatingPDF') : t('exportPDF')}
         </Button>
       </div>
     </header>

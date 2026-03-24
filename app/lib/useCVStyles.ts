@@ -96,6 +96,27 @@ export function useStyles(style: CVStyle) {
           color: TEXT_MID,
         },
 
+        // ── Photo row ────────────────────────────────────────────
+        photoRow: {
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          padding: 10,
+        },
+        contactCol: {
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          padding: 10,
+          fontSize: 10,
+        },
+        contactColItem: {
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 5,
+        },
+
         // ── Body layout ─────────────────────────────────────────
         body: {
           flexDirection: 'row',
@@ -203,7 +224,6 @@ export function useStyles(style: CVStyle) {
         skillCat: {
           marginBottom: 4,
           lineHeight: 0.725,
-          // backgroundColor: 'red',
         },
         skillCatName: {
           fontSize: fs * 0.8,
@@ -215,10 +235,7 @@ export function useStyles(style: CVStyle) {
           flexWrap: 'wrap',
         },
         skillBadge: {
-          // borderWidth: 1,
-          // borderColor: accentColor,
           borderStyle: 'solid',
-          // borderRadius: 3,
           backgroundColor: accentColor,
           padding: 4,
           marginRight: 4,

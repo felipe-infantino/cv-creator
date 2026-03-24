@@ -35,5 +35,7 @@
   "cvExperience": "ERFAHRUNG",
   "cvEducation": "AUSBILDUNG",
   "cvTechnicalSkills": "TECHNISCHE FÄHIGKEITEN",
-  "present": "Heute"
+  "present": "Heute",
+  "bullets": "Aufzählungspunkte",
+  "generatingPDF": "Wird generiert…"
 }

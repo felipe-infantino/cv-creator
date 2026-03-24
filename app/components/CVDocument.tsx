@@ -1,7 +1,6 @@
-import { Document, Page, View, Text, Image } from '@react-pdf/renderer';
+import { Document, Page, View, Text, Image, Link } from '@react-pdf/renderer';
 import { CVData } from '../types/cv';
 import { useStyles } from '../lib/useCVStyles';
-import { Link } from '@react-pdf/renderer';
 
 interface CVDocumentProps {
   cv: CVData;
@@ -15,17 +14,22 @@ interface CVDocumentProps {
 
 type Styles = ReturnType<typeof useStyles>['styles'];
 
+function isURL(value: string): boolean {
+  try {
+    new URL(value);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
-
-
-const PersonalInfoItem = ({ item, accentColor }: { item: string, accentColor: string }) => {
-  if (item.includes('https://')) {
-    const url = item;
-    let display = url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+const PersonalInfoItem = ({ item, accentColor }: { item: string; accentColor: string }) => {
+  if (isURL(item)) {
+    const display = item.replace(/^https?:\/\//, '').replace(/\/$/, '');
     return (
-        <Link src={url} style={{ textDecoration: 'none', color: accentColor }}>
-          {display}
-        </Link>
+      <Link src={item} style={{ textDecoration: 'none', color: accentColor }}>
+        {display}
+      </Link>
     );
   }
   if (item.includes('@')) {
@@ -35,10 +39,8 @@ const PersonalInfoItem = ({ item, accentColor }: { item: string, accentColor: st
       </Link>
     );
   }
-  return (
-    <Text>{item}</Text>
-  );
-}
+  return <Text>{item}</Text>;
+};
 
 function PDFSectionTitle({ title, s }: { title: string; s: Styles }) {
   return (
@@ -77,16 +79,16 @@ export function CVDocument({ cv, labels }: CVDocumentProps) {
               </Text>
             </View>
 
-            <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', padding: 10 }}>
+            <View style={s.photoRow}>
               <View style={s.photo}>
                 {personalInfo.photo ? (
                   <Image src={personalInfo.photo} style={s.photoImg} />
                 ) : null}
               </View>
 
-              <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', padding: 10, fontSize: 10 }}>
+              <View style={s.contactCol}>
                 {contactItems.map((contact, index) => (
-                  <View key={index} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 5 }}>
+                  <View key={index} style={s.contactColItem}>
                     <Text>{'•'}</Text>
                     <PersonalInfoItem item={contact} accentColor={s.accentColor.color} />
                   </View>
@@ -120,10 +122,6 @@ export function CVDocument({ cv, labels }: CVDocumentProps) {
                 ))}
               </View>
             ) : null}
-
-            {/* Education */}
-
-
 
           </View>
 

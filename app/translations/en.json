@@ -35,5 +35,7 @@
   "cvExperience": "EXPERIENCE",
   "cvEducation": "EDUCATION",
   "cvTechnicalSkills": "TECHNICAL SKILLS",
-  "present": "Present"
+  "present": "Present",
+  "bullets": "Bullets",
+  "generatingPDF": "Generating…"
 }

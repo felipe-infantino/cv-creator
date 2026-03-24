@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
+import { storage, STORAGE_KEYS } from '../lib/storage';
 
 type Theme = 'light' | 'dark';
 
@@ -18,7 +19,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>('dark');
 
   useEffect(() => {
-    const stored = localStorage.getItem('cv-theme') as Theme | null;
+    const stored = storage.getRaw(STORAGE_KEYS.THEME) as Theme | null;
     const resolved: Theme = stored === 'light' || stored === 'dark' ? stored : 'dark';
     setTheme(resolved);
     applyTheme(resolved);
@@ -37,7 +38,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const next: Theme = theme === 'dark' ? 'light' : 'dark';
     setTheme(next);
     applyTheme(next);
-    localStorage.setItem('cv-theme', next);
+    storage.setRaw(STORAGE_KEYS.THEME, next);
   }
 
   return (

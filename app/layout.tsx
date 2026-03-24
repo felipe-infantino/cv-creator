@@ -1,5 +1,4 @@
 'use client';
-import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
 import { useEffect } from "react";
@@ -7,6 +6,7 @@ import { CVProvider } from "./context/CVContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./lib/i18n";
+import { storage, STORAGE_KEYS } from "./lib/storage";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   useEffect(() => {
-    const stored = localStorage.getItem('cv-lang');
+    const stored = storage.getRaw(STORAGE_KEYS.LANG);
     if (stored === 'en' || stored === 'de') {
       i18n.changeLanguage(stored);
     }
