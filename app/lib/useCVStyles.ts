@@ -13,6 +13,8 @@ const CONTENT_PADDING = 0;
 const HEADER_PADDING = 16;
 const PAGE_PADDING = 10;
 
+export type PDFStyles = ReturnType<typeof useStyles>['styles'];
+
 export function useStyles(style: CVStyle) {
   const { accentColor, baseFontSize, lineHeight, fontFamily } = style;
 

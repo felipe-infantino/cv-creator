@@ -1,6 +1,13 @@
-import { Document, Page, View, Text, Image, Link } from '@react-pdf/renderer';
+import { Document, Page, View } from '@react-pdf/renderer';
 import { CVData } from '../types/cv';
 import { useStyles } from '../lib/useCVStyles';
+import { Header } from './viewer/Header';
+import { Photo } from './viewer/Photo';
+import { ContactInfo } from './viewer/ContactInfo';
+import { Experience } from './viewer/Experience';
+import { Profile } from './viewer/Profile';
+import { TechnicalSkills } from './viewer/TechnicalSkills';
+import { Education } from './viewer/Education';
 
 interface CVDocumentProps {
   cv: CVData;
@@ -12,49 +19,9 @@ interface CVDocumentProps {
   };
 }
 
-type Styles = ReturnType<typeof useStyles>['styles'];
-
-function isURL(value: string): boolean {
-  try {
-    new URL(value);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-const PersonalInfoItem = ({ item, accentColor }: { item: string; accentColor: string }) => {
-  if (isURL(item)) {
-    const display = item.replace(/^https?:\/\//, '').replace(/\/$/, '');
-    return (
-      <Link src={item} style={{ textDecoration: 'none', color: accentColor }}>
-        {display}
-      </Link>
-    );
-  }
-  if (item.includes('@')) {
-    return (
-      <Link src={`mailto:${item}`} style={{ textDecoration: 'none', color: accentColor }}>
-        {item}
-      </Link>
-    );
-  }
-  return <Text>{item}</Text>;
-};
-
-function PDFSectionTitle({ title, s }: { title: string; s: Styles }) {
-  return (
-    <View style={s.sectionTitle}>
-      <Text style={s.sectionTitleText}>{title.toUpperCase()}</Text>
-      <View style={s.sectionTitleLine} />
-    </View>
-  );
-}
-
 export function CVDocument({ cv, labels }: CVDocumentProps) {
   const { personalInfo, profile, experience, education, technicalSkills, style } = cv;
   const { styles: s, sp } = useStyles(style);
-
 
   const contactItems = [
     personalInfo.email,
@@ -68,110 +35,22 @@ export function CVDocument({ cv, labels }: CVDocumentProps) {
   return (
     <Document>
       <Page size="A4" style={s.page}>
-
-        {/* Header */}
         <View style={s.body}>
           <View style={s.leftCol}>
-            <View style={s.nameBlock}>
-              <Text style={s.name}>{personalInfo.name || 'Your Name'}</Text>
-              <Text style={s.jobTitle}>
-                {(personalInfo.title || 'Your Title').toUpperCase()}
-              </Text>
-            </View>
-
+            <Header name={personalInfo.name} title={personalInfo.title} s={s} />
             <View style={s.photoRow}>
-              <View style={s.photo}>
-                {personalInfo.photo ? (
-                  <Image src={personalInfo.photo} style={s.photoImg} />
-                ) : null}
-              </View>
-
-              <View style={s.contactCol}>
-                {contactItems.map((contact, index) => (
-                  <View key={index} style={s.contactColItem}>
-                    <Text>{'•'}</Text>
-                    <PersonalInfoItem item={contact} accentColor={s.accentColor.color} />
-                  </View>
-                ))}
-              </View>
+              <Photo photo={personalInfo.photo} s={s} />
+              <ContactInfo items={contactItems} accentColor={s.accentColor.color} s={s} />
             </View>
-
-            {experience.length > 0 ? (
-              <View style={s.section}>
-                <PDFSectionTitle title={labels.experience} s={s} />
-                {experience.map((exp, i) => (
-                  <View
-                    key={exp.id}
-                    wrap={false}
-                    style={{ marginBottom: i < experience.length - 1 ? sp * 0.75 : 0 }}
-                  >
-                    <View style={s.expHeader}>
-                      <Text style={s.expPosition}>{exp.position}</Text>
-                      <Text style={s.expYear}>
-                        {exp.startYear}{exp.startYear && exp.endYear ? ' – ' : ''}{exp.endYear}
-                      </Text>
-                    </View>
-                    <Text style={s.expCompany}>{exp.company}</Text>
-                    {exp.bullets.map((b, j) => (
-                      <View key={j} style={s.bulletRow}>
-                        <Text style={s.bulletDot}>{'•'}</Text>
-                        <Text style={s.bulletText}>{b}</Text>
-                      </View>
-                    ))}
-                  </View>
-                ))}
-              </View>
-            ) : null}
-
+            <Experience experience={experience} label={labels.experience} s={s} sp={sp} />
           </View>
 
           <View style={s.rightCol}>
-            {profile ? (
-              <View style={s.section}>
-                <PDFSectionTitle title={labels.profile} s={s} />
-                <Text style={s.profileText}>{profile}</Text>
-              </View>
-            ) : null}
-
-
-            {technicalSkills.length > 0 ? (
-              <View style={s.section}>
-                <PDFSectionTitle title={labels.technicalSkills} s={s} />
-                {technicalSkills.filter((cat) => cat.items.length > 0).map((cat) => (
-                  <View key={cat.id} wrap={false} style={s.skillCat}>
-                    <Text style={s.skillCatName}>{cat.name}</Text>
-                    <View style={s.skillBadgesRow}>
-                      {cat.items.map((item, i) => (
-                        <View key={i} style={s.skillBadge}>
-                          <Text style={s.skillBadgeText}>{item}</Text>
-                        </View>
-                      ))}
-                    </View>
-                  </View>
-                ))}
-              </View>
-            ) : null}
-
-            {education.length > 0 ? (
-              <View style={s.section}>
-                <PDFSectionTitle title={labels.education} s={s} />
-                {education.map((edu) => (
-                  <View key={edu.id} wrap={false} style={{ marginBottom: sp * 0.55 }}>
-                    <View style={s.eduHeader}>
-                      <Text style={s.eduDegree}>{edu.degree}</Text>
-                      <Text style={s.eduYear}>
-                        {edu.startYear}{edu.startYear && edu.endYear ? ' – ' : ''}{edu.endYear}
-                      </Text>
-                    </View>
-                    <Text style={s.eduInstitution}>{edu.institution}</Text>
-                  </View>
-                ))}
-              </View>
-            ) : null}
+            <Profile profile={profile} label={labels.profile} s={s} />
+            <TechnicalSkills technicalSkills={technicalSkills} label={labels.technicalSkills} s={s} />
+            <Education education={education} label={labels.education} s={s} sp={sp} />
           </View>
         </View>
-
-
       </Page>
     </Document>
   );
