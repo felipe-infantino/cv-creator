@@ -229,37 +229,6 @@ export function useStyles(style: CVStyle) {
           color: "#ffffff",
           lineHeight: 1,
         },
-
-        // ── Hobbies ──────────────────────────────────────────────
-        hobbyRow: {
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-        },
-        hobbyItem: {
-          alignItems: 'center',
-          marginRight: 12,
-          marginBottom: 8,
-          width: 48,
-        },
-        hobbyCircle: {
-          width: 36,
-          height: 36,
-          borderRadius: 18,
-          backgroundColor: accentColor,
-          alignItems: 'center',
-          justifyContent: 'center',
-          overflow: 'hidden',
-        },
-        hobbyImg: {
-          width: 22,
-          height: 22,
-        },
-        hobbyName: {
-          fontSize: fs * 0.85,
-          color: TEXT_MID,
-          marginTop: 4,
-          textAlign: 'center',
-        },
       }),
     };
   }, [accentColor, baseFontSize, lineHeight, fontFamily]);

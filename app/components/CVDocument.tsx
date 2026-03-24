@@ -10,9 +10,7 @@ interface CVDocumentProps {
     experience: string;
     education: string;
     technicalSkills: string;
-    hobbies: string;
   };
-  hobbyImages: Record<string, string>;
 }
 
 type Styles = ReturnType<typeof useStyles>['styles'];
@@ -51,8 +49,8 @@ function PDFSectionTitle({ title, s }: { title: string; s: Styles }) {
   );
 }
 
-export function CVDocument({ cv, labels, hobbyImages }: CVDocumentProps) {
-  const { personalInfo, profile, experience, education, technicalSkills, hobbies, style } = cv;
+export function CVDocument({ cv, labels }: CVDocumentProps) {
+  const { personalInfo, profile, experience, education, technicalSkills, style } = cv;
   const { styles: s, sp } = useStyles(style);
 
 

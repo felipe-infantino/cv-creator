@@ -16,7 +16,6 @@ const translations = {
     experience: 'Experience',
     education: 'Education',
     technicalSkills: 'Technical Skills',
-    hobbies: 'Hobbies',
     // Personal info fields
     fullName: 'Full Name',
     jobTitle: 'Job Title',
@@ -42,15 +41,11 @@ const translations = {
     // Technical skills fields
     categoryName: 'Category',
     categoryItems: 'Technologies (comma-separated)',
-    // Hobbies fields
-    hobbyName: 'Name',
-    hobbyIcon: 'Icon (emoji)',
     // CV Preview sections
     cvProfile: 'PROFILE',
     cvExperience: 'EXPERIENCE',
     cvEducation: 'EDUCATION',
     cvTechnicalSkills: 'TECHNICAL SKILLS',
-    cvHobbies: 'HOBBIES',
     present: 'Present',
   },
   de: {
@@ -68,7 +63,6 @@ const translations = {
     experience: 'Erfahrung',
     education: 'Ausbildung',
     technicalSkills: 'Technische Fähigkeiten',
-    hobbies: 'Hobbys',
     // Personal info fields
     fullName: 'Vollständiger Name',
     jobTitle: 'Berufsbezeichnung',
@@ -94,15 +88,11 @@ const translations = {
     // Technical skills fields
     categoryName: 'Kategorie',
     categoryItems: 'Technologien (kommagetrennt)',
-    // Hobbies fields
-    hobbyName: 'Name',
-    hobbyIcon: 'Symbol (Emoji)',
     // CV Preview sections
     cvProfile: 'PROFIL',
     cvExperience: 'ERFAHRUNG',
     cvEducation: 'AUSBILDUNG',
     cvTechnicalSkills: 'TECHNISCHE FÄHIGKEITEN',
-    cvHobbies: 'HOBBYS',
     present: 'Heute',
   },
 } as const;

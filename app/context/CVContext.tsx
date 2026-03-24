@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
-import { CVData, CVStyle, Experience, Education, SkillCategory, Hobby, PersonalInfo } from '../types/cv';
+import { CVData, CVStyle, Experience, Education, SkillCategory, PersonalInfo } from '../types/cv';
 import defaultCV from '../lib/defaultCV';
 
 interface CVContextValue {
@@ -18,9 +18,6 @@ interface CVContextValue {
   addSkillCategory: () => void;
   updateSkillCategory: (id: string, data: Partial<SkillCategory>) => void;
   removeSkillCategory: (id: string) => void;
-  addHobby: () => void;
-  updateHobby: (id: string, data: Partial<Hobby>) => void;
-  removeHobby: (id: string) => void;
 }
 
 const CVContext = createContext<CVContextValue | null>(null);
@@ -103,14 +100,6 @@ export function CVProvider({ children }: { children: React.ReactNode }) {
   const removeSkillCategory = (id: string) =>
     save({ ...cv, technicalSkills: cv.technicalSkills.filter((s) => s.id !== id) });
 
-  const addHobby = () =>
-    save({ ...cv, hobbies: [...cv.hobbies, { id: uid(), name: '', icon: '⭐' }] });
-
-  const updateHobby = (id: string, data: Partial<Hobby>) =>
-    save({ ...cv, hobbies: cv.hobbies.map((h) => (h.id === id ? { ...h, ...data } : h)) });
-
-  const removeHobby = (id: string) =>
-    save({ ...cv, hobbies: cv.hobbies.filter((h) => h.id !== id) });
 
   return (
     <CVContext.Provider
@@ -128,9 +117,6 @@ export function CVProvider({ children }: { children: React.ReactNode }) {
         addSkillCategory,
         updateSkillCategory,
         removeSkillCategory,
-        addHobby,
-        updateHobby,
-        removeHobby,
       }}
     >
       {children}

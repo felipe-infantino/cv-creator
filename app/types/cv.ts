@@ -33,12 +33,6 @@ export interface SkillCategory {
   items: string[];
 }
 
-export interface Hobby {
-  id: string;
-  name: string;
-  icon: string;
-}
-
 export interface CVStyle {
   fontFamily: string;
   baseFontSize: number;   // px
@@ -52,6 +46,5 @@ export interface CVData {
   experience: Experience[];
   education: Education[];
   technicalSkills: SkillCategory[];
-  hobbies: Hobby[];
   style: CVStyle;
 }

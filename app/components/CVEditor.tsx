@@ -55,7 +55,7 @@ export default function CVEditor() {
     addExperience, updateExperience, removeExperience,
     addEducation, updateEducation, removeEducation,
     addSkillCategory, updateSkillCategory, removeSkillCategory,
-    addHobby, updateHobby, removeHobby } = useCV();
+  } = useCV();
   const { t } = useLanguage();
   const photoRef = useRef<HTMLInputElement>(null);
 
@@ -68,7 +68,6 @@ export default function CVEditor() {
     experience: false,
     education: false,
     technicalSkills: false,
-    hobbies: false,
   });
 
   function toggle(key: string) {
@@ -358,37 +357,6 @@ export default function CVEditor() {
               </div>
             ))}
             <button onClick={addSkillCategory} className="rounded bg-[#2d7aa8] px-3 py-1.5 text-sm text-white hover:bg-[#235f87]">
-              + {t('addEntry')}
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* Hobbies */}
-      <div>
-        <SectionHeader title={t('hobbies')} open={open.hobbies} onToggle={() => toggle('hobbies')} />
-        {open.hobbies && (
-          <div className="mt-2 flex flex-col gap-3 rounded-lg border border-gray-100 p-4">
-            {cv.hobbies.map((hobby) => (
-              <div key={hobby.id} className="flex items-center gap-2">
-                <input
-                  type="text"
-                  value={hobby.icon}
-                  onChange={(e) => updateHobby(hobby.id, { icon: e.target.value })}
-                  placeholder="😀"
-                  className="w-14 rounded border border-gray-200 px-2 py-1 text-center text-sm focus:border-[#2d7aa8] focus:outline-none"
-                />
-                <input
-                  type="text"
-                  value={hobby.name}
-                  onChange={(e) => updateHobby(hobby.id, { name: e.target.value })}
-                  placeholder={t('hobbyName')}
-                  className="flex-1 rounded border border-gray-200 px-2 py-1 text-sm focus:border-[#2d7aa8] focus:outline-none"
-                />
-                <button onClick={() => removeHobby(hobby.id)} className="text-red-400 hover:text-red-600">✕</button>
-              </div>
-            ))}
-            <button onClick={addHobby} className="rounded bg-[#2d7aa8] px-3 py-1.5 text-sm text-white hover:bg-[#235f87]">
               + {t('addEntry')}
             </button>
           </div>

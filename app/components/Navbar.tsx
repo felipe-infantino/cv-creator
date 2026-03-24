@@ -24,11 +24,6 @@ export default function Navbar() {
   async function handleExportPDF() {
     setIsGenerating(true);
     try {
-      // Rasterize emoji hobby icons (PDF fonts don't support emoji)
-      const hobbyImages: Record<string, string> = {};
-      for (const h of cv.hobbies) {
-        if (h.icon) hobbyImages[h.id] = await emojiToDataUri(h.icon);
-      }
 
       // Lazy-import to keep these out of the SSR bundle
       const { pdf } = await import('@react-pdf/renderer');
@@ -42,7 +37,6 @@ export default function Navbar() {
         experience: t('cvExperience'),
         education: t('cvEducation'),
         technicalSkills: t('cvTechnicalSkills'),
-        hobbies: t('cvHobbies'),
       };
 
       const mappedCV = {
@@ -51,7 +45,7 @@ export default function Navbar() {
       };
 
       const blob = await pdf(
-        <CVDocument cv={mappedCV} labels={labels} hobbyImages={hobbyImages} />
+        <CVDocument cv={mappedCV} labels={labels} />
       ).toBlob();
 
       const url = URL.createObjectURL(blob);

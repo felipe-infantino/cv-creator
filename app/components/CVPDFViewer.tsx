@@ -25,24 +25,12 @@ async function emojiToDataUri(emoji: string, size = 32): Promise<string> {
 export default function CVPDFViewer() {
   const { cv } = useCV();
   const { t } = useLanguage();
-  const [hobbyImages, setHobbyImages] = useState<Record<string, string>>({});
-
-  useEffect(() => {
-    (async () => {
-      const images: Record<string, string> = {};
-      for (const h of cv.hobbies) {
-        if (h.icon) images[h.id] = await emojiToDataUri(h.icon);
-      }
-      setHobbyImages(images);
-    })();
-  }, [cv.hobbies]);
 
   const labels = {
     profile: t('cvProfile'),
     experience: t('cvExperience'),
     education: t('cvEducation'),
     technicalSkills: t('cvTechnicalSkills'),
-    hobbies: t('cvHobbies'),
   };
 
   const mappedCV = {
@@ -52,7 +40,7 @@ export default function CVPDFViewer() {
 
   return (
     <PDFViewer width="100%" height="100%" showToolbar={false}>
-      <CVDocument cv={mappedCV} labels={labels} hobbyImages={hobbyImages} />
+      <CVDocument cv={mappedCV} labels={labels} />
     </PDFViewer>
   );
 }
