@@ -1,6 +1,8 @@
+'use client';
 import Navbar from './components/Navbar';
 import CVEditor from './components/CVEditor';
-import ClientPreviewPanel from './components/ClientPreviewPanel';
+import CVPDFViewer from './components/CVPDFViewer';
+
 
 export default function Home() {
   return (
@@ -13,7 +15,7 @@ export default function Home() {
         </div>
         {/* PDF preview panel */}
         <div className="flex w-3/5 overflow-hidden">
-          <ClientPreviewPanel />
+          <CVPDFViewer />
         </div>
       </div>
     </main>
