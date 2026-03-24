@@ -3,14 +3,14 @@
 import { PDFViewer } from '@react-pdf/renderer';
 import { CVDocument } from './CVDocument';
 import { useCV } from '../context/CVContext';
-import { useLanguage } from '../context/LanguageContext';
+import { useTranslation } from 'react-i18next';
 import { registerPDFFonts, mapFontFamilyForPDF } from '../lib/pdfFonts';
 
 registerPDFFonts();
 
 export default function CVPDFViewer() {
   const { cv } = useCV();
-  const { t } = useLanguage();
+  const { t } = useTranslation();
 
   const labels = {
     profile: t('cvProfile'),

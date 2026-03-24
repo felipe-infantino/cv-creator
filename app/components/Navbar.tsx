@@ -3,12 +3,12 @@
 import { useState } from 'react';
 import { Sun, Moon, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useLanguage } from '../context/LanguageContext';
+import { useTranslation } from 'react-i18next';
 import { useCV } from '../context/CVContext';
 import { useTheme } from '../context/ThemeContext';
 
 export default function Navbar() {
-  const { lang, setLang, t } = useLanguage();
+  const { t, i18n } = useTranslation();
   const { cv } = useCV();
   const { theme, toggleTheme } = useTheme();
   const [isGenerating, setIsGenerating] = useState(false);
@@ -57,18 +57,18 @@ export default function Navbar() {
         {/* Language toggle */}
         <div className="flex overflow-hidden rounded-full border border-border">
           <Button
-            variant={lang === 'en' ? 'default' : 'ghost'}
+            variant={i18n.language === 'en' ? 'default' : 'ghost'}
             size="sm"
             className="rounded-none rounded-l-full px-4 text-xs"
-            onClick={() => setLang('en')}
+            onClick={() => { i18n.changeLanguage('en'); localStorage.setItem('cv-lang', 'en'); }}
           >
             EN
           </Button>
           <Button
-            variant={lang === 'de' ? 'default' : 'ghost'}
+            variant={i18n.language === 'de' ? 'default' : 'ghost'}
             size="sm"
             className="rounded-none rounded-r-full px-4 text-xs"
-            onClick={() => setLang('de')}
+            onClick={() => { i18n.changeLanguage('de'); localStorage.setItem('cv-lang', 'de'); }}
           >
             DE
           </Button>

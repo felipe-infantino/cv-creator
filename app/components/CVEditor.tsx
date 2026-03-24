@@ -22,7 +22,7 @@ import {
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 import { useCV } from '../context/CVContext';
-import { useLanguage } from '../context/LanguageContext';
+import { useTranslation } from 'react-i18next';
 import { FONT_OPTIONS, loadGoogleFont } from '../lib/fonts';
 
 function SectionHeader({ title, open }: { title: string; open: boolean }) {
@@ -68,7 +68,7 @@ export default function CVEditor() {
     addEducation, updateEducation, removeEducation,
     addSkillCategory, updateSkillCategory, removeSkillCategory,
   } = useCV();
-  const { t } = useLanguage();
+  const { t } = useTranslation();
   const photoRef = useRef<HTMLInputElement>(null);
 
   const [skillInputs, setSkillInputs] = useState<Record<string, string>>({});
