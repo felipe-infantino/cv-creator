@@ -1,31 +1,21 @@
 'use client';
 
 import { useState } from 'react';
+import { Sun, Moon, Download } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { useLanguage } from '../context/LanguageContext';
 import { useCV } from '../context/CVContext';
-
-async function emojiToDataUri(emoji: string, size = 32): Promise<string> {
-  const canvas = document.createElement('canvas');
-  canvas.width = size;
-  canvas.height = size;
-  const ctx = canvas.getContext('2d')!;
-  ctx.font = `${size * 0.8}px serif`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(emoji, size / 2, size / 2);
-  return canvas.toDataURL('image/png');
-}
+import { useTheme } from '../context/ThemeContext';
 
 export default function Navbar() {
   const { lang, setLang, t } = useLanguage();
   const { cv } = useCV();
+  const { theme, toggleTheme } = useTheme();
   const [isGenerating, setIsGenerating] = useState(false);
 
   async function handleExportPDF() {
     setIsGenerating(true);
     try {
-
-      // Lazy-import to keep these out of the SSR bundle
       const { pdf } = await import('@react-pdf/renderer');
       const { CVDocument } = await import('./CVDocument');
       const { registerPDFFonts, mapFontFamilyForPDF } = await import('../lib/pdfFonts');
@@ -60,40 +50,55 @@ export default function Navbar() {
   }
 
   return (
-    <header className="flex items-center justify-between border-b bg-white px-6 py-3 shadow-sm">
-      <span className="text-lg font-bold tracking-tight text-[#2d7aa8]">CV Creator</span>
+    <header className="flex items-center justify-between border-b bg-background px-6 py-3 shadow-sm">
+      <span className="text-lg font-bold tracking-tight text-foreground">CV Creator</span>
 
-      {/* Language toggle */}
-      <div className="flex overflow-hidden rounded-full border border-[#2d7aa8]">
-        <button
-          onClick={() => setLang('en')}
-          className={`px-4 py-1 text-sm font-medium transition-colors ${
-            lang === 'en'
-              ? 'bg-[#2d7aa8] text-white'
-              : 'bg-white text-[#2d7aa8] hover:bg-[#eaf3fa]'
-          }`}
+      <div className="flex items-center gap-2">
+        {/* Language toggle */}
+        <div className="flex overflow-hidden rounded-full border border-border">
+          <Button
+            variant={lang === 'en' ? 'default' : 'ghost'}
+            size="sm"
+            className="rounded-none rounded-l-full px-4 text-xs"
+            onClick={() => setLang('en')}
+          >
+            EN
+          </Button>
+          <Button
+            variant={lang === 'de' ? 'default' : 'ghost'}
+            size="sm"
+            className="rounded-none rounded-r-full px-4 text-xs"
+            onClick={() => setLang('de')}
+          >
+            DE
+          </Button>
+        </div>
+
+        {/* Theme toggle */}
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={toggleTheme}
+          aria-label="Toggle theme"
+          className="h-8 w-8"
         >
-          EN
-        </button>
-        <button
-          onClick={() => setLang('de')}
-          className={`px-4 py-1 text-sm font-medium transition-colors ${
-            lang === 'de'
-              ? 'bg-[#2d7aa8] text-white'
-              : 'bg-white text-[#2d7aa8] hover:bg-[#eaf3fa]'
-          }`}
+          {theme === 'dark'
+            ? <Sun className="h-4 w-4" />
+            : <Moon className="h-4 w-4" />
+          }
+        </Button>
+
+        {/* Export */}
+        <Button
+          onClick={handleExportPDF}
+          disabled={isGenerating}
+          size="sm"
+          className="gap-2"
         >
-          DE
-        </button>
+          <Download className="h-4 w-4" />
+          {isGenerating ? 'Generating…' : t('exportPDF')}
+        </Button>
       </div>
-
-      <button
-        onClick={handleExportPDF}
-        disabled={isGenerating}
-        className="rounded-lg bg-[#2d7aa8] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#235f87] disabled:opacity-60 disabled:cursor-not-allowed"
-      >
-        {isGenerating ? 'Generating…' : t('exportPDF')}
-      </button>
     </header>
   );
 }
