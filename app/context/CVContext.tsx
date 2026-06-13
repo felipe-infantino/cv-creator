@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import { CVData, CVStyle, Experience, Education, SkillCategory, PersonalInfo } from '../types/cv';
-import defaultCV from '../lib/defaultCV';
+import defaultCV, { defaultCVEn } from '../lib/defaultCV';
 import { storage, STORAGE_KEYS } from '../lib/storage';
 
 interface CVContextValue {
@@ -19,6 +19,7 @@ interface CVContextValue {
   addSkillCategory: () => void;
   updateSkillCategory: (id: string, data: Partial<SkillCategory>) => void;
   removeSkillCategory: (id: string) => void;
+  loadLanguageDefault: (lang: string) => void;
 }
 
 const CVContext = createContext<CVContextValue | undefined>(undefined);
@@ -96,6 +97,10 @@ export function CVProvider({ children }: { children: React.ReactNode }) {
   const removeSkillCategory = (id: string) =>
     save({ ...cv, technicalSkills: cv.technicalSkills.filter((s) => s.id !== id) });
 
+  const loadLanguageDefault = (lang: string) => {
+    const template = lang === 'en' ? defaultCVEn : defaultCV;
+    save({ ...template, style: { ...template.style, ...cv.style } });
+  };
 
   return (
     <CVContext.Provider
@@ -113,6 +118,7 @@ export function CVProvider({ children }: { children: React.ReactNode }) {
         addSkillCategory,
         updateSkillCategory,
         removeSkillCategory,
+        loadLanguageDefault,
       }}
     >
       {children}

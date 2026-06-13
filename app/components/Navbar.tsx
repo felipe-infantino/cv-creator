@@ -10,7 +10,7 @@ import { storage, STORAGE_KEYS } from '../lib/storage';
 
 export default function Navbar() {
   const { t, i18n } = useTranslation();
-  const { cv } = useCV();
+  const { cv, loadLanguageDefault } = useCV();
   const { theme, toggleTheme } = useTheme();
   const [isGenerating, setIsGenerating] = useState(false);
 
@@ -61,7 +61,7 @@ export default function Navbar() {
             variant={i18n.language === 'en' ? 'default' : 'ghost'}
             size="sm"
             className="rounded-none rounded-l-full px-4 text-xs"
-            onClick={() => { i18n.changeLanguage('en'); storage.setRaw(STORAGE_KEYS.LANG, 'en'); }}
+            onClick={() => { i18n.changeLanguage('en'); storage.setRaw(STORAGE_KEYS.LANG, 'en'); loadLanguageDefault('en'); }}
           >
             EN
           </Button>
@@ -69,7 +69,7 @@ export default function Navbar() {
             variant={i18n.language === 'de' ? 'default' : 'ghost'}
             size="sm"
             className="rounded-none rounded-r-full px-4 text-xs"
-            onClick={() => { i18n.changeLanguage('de'); storage.setRaw(STORAGE_KEYS.LANG, 'de'); }}
+            onClick={() => { i18n.changeLanguage('de'); storage.setRaw(STORAGE_KEYS.LANG, 'de'); loadLanguageDefault('de'); }}
           >
             DE
           </Button>
